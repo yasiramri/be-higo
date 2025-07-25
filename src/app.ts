@@ -7,16 +7,11 @@ import createRouter from 'express-file-routing';
 import { PrismaClient } from '../generated/mongo_db';
 
 const main = async () => {
-  dotenv.config;
+  dotenv.config();
 
   const app = express();
-  const prisma = new PrismaClient();
-
-  app.use(cors());
-  app.use(express.json);
-  app.use(morgan('dev'));
-
   const router = express.Router();
+  const prisma = new PrismaClient();
 
   await createRouter(router, {
     directory: path.join(__dirname, 'routes'),
@@ -24,6 +19,11 @@ const main = async () => {
 
   await prisma.$connect();
   console.log('berhasil koneksi ke MongoDB');
+
+  app.use(cors());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(morgan('dev'));
 
   app.use('/api', router);
 
