@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/mongo_db"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model higo {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  Age              Int
+  Brand_Device     String @map("Brand Device")
+  Date             String
+  Digital_Interest String @map("Digital Interest")
+  Email            String
+  Location_Type    String @map("Location Type")
+  Login_Hour       String @map("Login Hour")
+  Name             String
+  Name_of_Location String @map("Name of Location")
+  No_Telp          String @map("No Telp")
+  Number           Int
+  gender           String
+}
