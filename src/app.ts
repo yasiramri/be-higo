@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import path from 'path';
 import createRouter from 'express-file-routing';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/mongo_db';
 
 const main = async () => {
   dotenv.config;
