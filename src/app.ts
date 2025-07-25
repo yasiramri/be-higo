@@ -4,11 +4,13 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import path from 'path';
 import createRouter from 'express-file-routing';
+import { PrismaClient } from '@prisma/client';
 
 const main = async () => {
   dotenv.config;
 
   const app = express();
+  const prisma = new PrismaClient();
 
   app.use(cors());
   app.use(express.json);
@@ -19,6 +21,9 @@ const main = async () => {
   await createRouter(router, {
     directory: path.join(__dirname, 'routes'),
   });
+
+  await prisma.$connect();
+  console.log('berhasil koneksi ke MongoDB');
 
   app.use('/api', router);
 
