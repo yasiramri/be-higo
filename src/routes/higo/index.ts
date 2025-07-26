@@ -41,6 +41,7 @@ export const get = async (req: Request, res: Response) => {
       BirthYear: item.Age,
       Age: currentYear - item.Age,
     }));
+    console.log('ProcessedData sample:', processedData[0]);
 
     const total = await db1.higo.count({
       where: gender ? { gender } : undefined,
