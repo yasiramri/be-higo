@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import path from 'path';
 import createRouter from 'express-file-routing';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
 import { PrismaClient } from '../generated/mongo_db';
 
 const main = async () => {
@@ -24,6 +26,7 @@ const main = async () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('dev'));
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   app.use('/api', router);
 
