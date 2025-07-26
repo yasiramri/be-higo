@@ -141,7 +141,7 @@ import { apiOk, apiError } from '../../tools/common';
 export const get = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 30;
+    const limit = parseInt(req.query.limit as string) || 100;
     const gender = req.query.gender as string | undefined;
     const sortBy = (req.query.sortBy as string) || 'Date';
     const order = (req.query.order as string) || 'desc';
