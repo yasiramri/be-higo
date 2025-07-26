@@ -8,10 +8,11 @@ const get = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 20;
         const gender = req.query.gender;
-        const sortBy = req.query.sortBy || 'Age';
+        const sortBy = req.query.sortBy || 'id';
         const order = req.query.order === 'desc' ? 'desc' : 'asc';
         const skip = (page - 1) * limit;
-        const data = await db1_1.db1.higo.findMany({
+        const currentYear = new Date().getFullYear();
+        const rawData = await db1_1.db1.higo.findMany({
             skip,
             take: limit,
             where: gender ? { gender } : undefined,
@@ -25,10 +26,21 @@ const get = async (req, res) => {
                 gender: true,
                 Email: true,
                 Number: true,
+                No_Telp: true,
                 Location_Type: true,
                 Digital_Interest: true,
+                Name_of_Location: true,
+                Date: true,
+                Login_Hour: true,
+                Brand_Device: true,
             },
         });
+        const processedData = rawData.map((item) => ({
+            ...item,
+            BirthYear: item.Age,
+            Age: currentYear - item.Age,
+        }));
+        console.log('ProcessedData sample:', processedData[0]);
         const total = await db1_1.db1.higo.count({
             where: gender ? { gender } : undefined,
         });
@@ -36,7 +48,7 @@ const get = async (req, res) => {
             page,
             limit,
             total,
-            data,
+            data: processedData,
         });
     }
     catch (error) {
